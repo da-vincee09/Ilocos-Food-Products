@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SSOP Monitoring Records Management System</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <section id="auth-view" class="auth-view">
+    <div class="auth-panel">
+      <div class="auth-brand">
+        <div class="brand-mark">
+          <span>SSOP</span>
+          <small>IFP</small>
+        </div>
+        <div>
+          <p class="eyebrow">Ilocos Food Products</p>
+          <p class="auth-location">Taleb, Bantay, Ilocos Sur</p>
+        </div>
+      </div>
+      <h1>SSOP Monitoring Records Management System</h1>
+      <p class="auth-copy">Secure monitoring records for sanitation, receiving, pest control, frying, cleaning, and stock handling.</p>
+
+      <form id="login-form" class="auth-form">
+        <label>Email
+          <input id="login-email" type="email" required autocomplete="email">
+        </label>
+        <label>Password
+          <input id="login-password" type="password" required autocomplete="current-password">
+        </label>
+        <button class="primary-btn full" type="submit">Login</button>
+        <p class="auth-switch">Don't have an account? <button id="show-register" type="button">Sign up</button></p>
+      </form>
+
+      <form id="register-form" class="auth-form hidden">
+        <label>Email
+          <input id="register-email" type="email" required autocomplete="email">
+        </label>
+        <label>Password
+          <input id="register-password" type="password" required minlength="6" autocomplete="new-password">
+        </label>
+        <button class="primary-btn full" type="submit">Create Account</button>
+        <p class="auth-switch">Have an account? <button id="show-login" type="button">Login</button></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="app-view" class="app-view hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark small">
+          <span>SS</span>
+          <small>IFP</small>
+        </div>
+        <div>
+          <strong>SSOP Records</strong>
+          <span>Ilocos Food Products</span>
+        </div>
+      </div>
+      <nav id="sidebar-nav" class="sidebar-nav" aria-label="Main modules"></nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menu-toggle" class="icon-btn mobile-only" type="button" aria-label="Toggle menu">☰</button>
+        <div>
+          <p class="eyebrow">Sanitation Standard Operating Procedures</p>
+          <h2 id="page-title">Dashboard</h2>
+        </div>
+        <div class="topbar-actions">
+          <span id="user-email" class="user-email"></span>
+          <button id="logout-top" class="ghost-btn" type="button">Logout</button>
+        </div>
+      </header>
+
+      <section id="dashboard-view" class="content-view"></section>
+      <section id="module-view" class="content-view hidden"></section>
+      <section id="reports-view" class="content-view hidden"></section>
+    </main>
+  </section>
+
+  <div id="record-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow" id="modal-kicker">Record</p>
+          <h3 id="modal-title">Add Record</h3>
+        </div>
+        <button class="icon-btn" type="button" data-close-modal aria-label="Close">×</button>
+      </div>
+      <form id="record-form" class="record-form"></form>
+    </div>
+  </div>
+
+  <div id="confirm-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="confirm-panel">
+      <h3>Delete record?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="cancel-delete" class="ghost-btn" type="button">Cancel</button>
+        <button id="confirm-delete" class="danger-btn" type="button">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
