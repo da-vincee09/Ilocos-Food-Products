@@ -213,8 +213,7 @@ const navItems = [
   ["oil_temperature_records", "Oil Temperature / Deep Frying"],
   ["cleaning_sanitation_logs", "Cleaning & Sanitation"],
   ["stock_management_records", "Stock Management"],
-  ["reports", "Reports"],
-  ["logout", "Logout"]
+  ["reports", "Reports"]
 ];
 
 const $ = (selector) => document.querySelector(selector);
@@ -239,14 +238,38 @@ function bindAuth() {
   $("#show-register").addEventListener("click", () => switchAuth("register"));
   $("#login-form").addEventListener("submit", handleLogin);
   $("#register-form").addEventListener("submit", handleRegister);
+  document.querySelectorAll("[data-toggle-password]").forEach((button) => {
+    button.addEventListener("click", () => togglePassword(button));
+  });
+}
+
+function togglePassword(button) {
+  const input = document.getElementById(button.dataset.togglePassword);
+  if (!input) return;
+  const showing = input.type === "text";
+  input.type = showing ? "password" : "text";
+  button.classList.toggle("hidden-password", showing);
+  button.setAttribute("aria-label", showing ? "Show password" : "Hide password");
 }
 
 function bindGlobalEvents() {
   $("#logout-top").addEventListener("click", logout);
-  $("#menu-toggle").addEventListener("click", () => $(".sidebar").classList.toggle("open"));
+  $("#menu-toggle").addEventListener("click", () => toggleSidebar());
+  document.addEventListener("click", (event) => {
+    if (!document.body.classList.contains("menu-open")) return;
+    if (event.target.closest(".sidebar") || event.target.closest("#menu-toggle")) return;
+    toggleSidebar(false);
+  });
   document.querySelectorAll("[data-close-modal]").forEach((btn) => btn.addEventListener("click", closeModal));
   $("#cancel-delete").addEventListener("click", () => closeConfirm());
   $("#confirm-delete").addEventListener("click", performDelete);
+}
+
+function toggleSidebar(force) {
+  const sidebar = $(".sidebar");
+  const open = force ?? !sidebar.classList.contains("open");
+  sidebar.classList.toggle("open", open);
+  document.body.classList.toggle("menu-open", open);
 }
 
 function switchAuth(mode) {
@@ -302,7 +325,7 @@ function renderNav() {
     const key = button.dataset.nav;
     if (key === "logout") return logout();
     navigate(key);
-    $(".sidebar").classList.remove("open");
+    toggleSidebar(false);
   });
 }
 
@@ -416,31 +439,44 @@ async function renderDashboard() {
     <div class="chart-row">
       <section class="panel">
         <div class="panel-header"><h3>Compliance Watch</h3></div>
-        <canvas id="watch-chart" height="130"></canvas>
+        <div class="chart-shell">
+          <canvas id="watch-chart"></canvas>
+        </div>
       </section>
-      <section class="panel">
+      <section class="panel attention-panel">
         <div class="panel-header"><h3>Records Needing Attention</h3></div>
-        <table>
-          <tbody>
-            <tr><td>Records needing corrective action</td><td><span class="status-badge warn">${corrective}</span></td></tr>
-            <tr><td>Oil temperature deviations</td><td><span class="status-badge danger">${oilDeviations}</span></td></tr>
-            <tr><td>Pest activity observations</td><td><span class="status-badge danger">${pestObservations}</span></td></tr>
-            <tr><td>Damaged packaging records</td><td><span class="status-badge warn">${damagedPackaging}</span></td></tr>
-            <tr><td>Delivery truck maintenance issues</td><td><span class="status-badge warn">${maintenanceIssues}</span></td></tr>
-          </tbody>
-        </table>
+        <div class="attention-list">
+          <div class="attention-item"><span>Corrective action</span><strong class="status-badge warn">${corrective}</strong></div>
+          <div class="attention-item"><span>Oil deviations</span><strong class="status-badge danger">${oilDeviations}</strong></div>
+          <div class="attention-item"><span>Pest activity</span><strong class="status-badge danger">${pestObservations}</strong></div>
+          <div class="attention-item"><span>Damaged packaging</span><strong class="status-badge warn">${damagedPackaging}</strong></div>
+          <div class="attention-item"><span>Truck maintenance</span><strong class="status-badge warn">${maintenanceIssues}</strong></div>
+        </div>
       </section>
     </div>
   `;
   if (window.Chart) {
     if (state.chart) state.chart.destroy();
+    const isMobile = window.matchMedia("(max-width: 760px)").matches;
+    const labels = isMobile
+      ? ["Corrective", "Oil", "Pest", "Packaging", "Truck"]
+      : ["Corrective Actions", "Oil Deviations", "Pest Activity", "Damaged Packaging", "Truck Issues"];
     state.chart = new Chart($("#watch-chart"), {
       type: "bar",
       data: {
-        labels: ["Corrective Actions", "Oil Deviations", "Pest Activity", "Damaged Packaging", "Truck Issues"],
+        labels,
         datasets: [{ data: [corrective, oilDeviations, pestObservations, damagedPackaging, maintenanceIssues], backgroundColor: ["#c78a2c", "#b23a2f", "#9c6644", "#c9704a", "#556b2f"] }]
       },
-      options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: isMobile ? "y" : "x",
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true, ticks: { maxRotation: 0, autoSkip: false } },
+          y: { beginAtZero: true, ticks: { autoSkip: false } }
+        }
+      }
     });
   }
 }
@@ -533,12 +569,12 @@ function renderTable(key) {
 }
 
 function renderRecordRow(record, config, key) {
-  const childCell = config.childTable ? `<td>${renderChildSummary(record._children || [], config.childFields)}</td>` : "";
+  const childCell = config.childTable ? `<td data-label="Child Rows">${renderChildSummary(record._children || [], config.childFields)}</td>` : "";
   return `
     <tr>
-      ${config.columns.map((column) => `<td>${formatCell(column, record[column])}</td>`).join("")}
+      ${config.columns.map((column) => `<td data-label="${labelize(column)}">${formatCell(column, record[column])}</td>`).join("")}
       ${childCell}
-      <td>
+      <td data-label="Actions">
         <div class="row-actions">
           <button class="ghost-btn" type="button" data-edit="${record.id}">Edit</button>
           <button class="secondary-btn" type="button" data-print="${record.id}">Print</button>

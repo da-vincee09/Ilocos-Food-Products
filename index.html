@@ -32,7 +32,10 @@
           <input id="login-email" type="email" required autocomplete="email">
         </label>
         <label>Password
-          <input id="login-password" type="password" required autocomplete="current-password">
+          <span class="password-field">
+            <input id="login-password" type="password" required autocomplete="current-password">
+            <button class="password-toggle hidden-password" type="button" data-toggle-password="login-password" aria-label="Show password"></button>
+          </span>
         </label>
         <button class="primary-btn full" type="submit">Login</button>
         <p class="auth-switch">Don't have an account? <button id="show-register" type="button">Sign up</button></p>
@@ -43,7 +46,10 @@
           <input id="register-email" type="email" required autocomplete="email">
         </label>
         <label>Password
-          <input id="register-password" type="password" required minlength="6" autocomplete="new-password">
+          <span class="password-field">
+            <input id="register-password" type="password" required minlength="6" autocomplete="new-password">
+            <button class="password-toggle hidden-password" type="button" data-toggle-password="register-password" aria-label="Show password"></button>
+          </span>
         </label>
         <button class="primary-btn full" type="submit">Create Account</button>
         <p class="auth-switch">Have an account? <button id="show-login" type="button">Login</button></p>
@@ -68,7 +74,7 @@
 
     <main class="main">
       <header class="topbar">
-        <button id="menu-toggle" class="icon-btn mobile-only" type="button" aria-label="Toggle menu">☰</button>
+        <button id="menu-toggle" class="icon-btn mobile-only" type="button" aria-label="Toggle menu">&equiv;</button>
         <div>
           <p class="eyebrow">Sanitation Standard Operating Procedures</p>
           <h2 id="page-title">Dashboard</h2>
@@ -92,7 +98,7 @@
           <p class="eyebrow" id="modal-kicker">Record</p>
           <h3 id="modal-title">Add Record</h3>
         </div>
-        <button class="icon-btn" type="button" data-close-modal aria-label="Close">×</button>
+        <button class="icon-btn" type="button" data-close-modal aria-label="Close">&times;</button>
       </div>
       <form id="record-form" class="record-form"></form>
     </div>
