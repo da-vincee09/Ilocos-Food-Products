@@ -1218,6 +1218,14 @@ tr:last-child td {
     font-weight: 700;
     text-transform: uppercase;
   }
+  .template-raw_material_receiving .template-table th {
+    font-size: 7pt;
+    line-height: 1;
+    padding: 1px;
+  }
+  .template-raw_material_receiving .template-table td {
+    font-size: 9pt;
+  }
   .template-table td {
     height: 13px;
     min-height: 13px;

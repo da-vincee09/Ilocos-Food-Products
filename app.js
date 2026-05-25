@@ -1034,7 +1034,7 @@ function printTemplateRecords(rows, config) {
     }));
   });
   return pages.map((page, index) => `
-    <section class="template-print template-${template.orientation || "portrait"} ${index > 0 ? "page-break" : ""}">
+    <section class="template-print template-${template.orientation || "portrait"} template-${config.table} ${index > 0 ? "page-break" : ""}">
       ${templateDocumentHeader(template, printedOn, page.pageNumber, page.totalPages)}
       <h1>${escapeHtml(template.title)}</h1>
       ${printTemplateMeta(page.record, template)}
