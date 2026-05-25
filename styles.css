@@ -1065,6 +1065,21 @@ tr:last-child td {
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 14mm;
+  }
+
+  @page template-landscape {
+    size: A4 landscape;
+    margin: 14mm;
+  }
+
+  @page template-portrait {
+    size: A4 portrait;
+    margin: 14mm;
+  }
+
   body { background: var(--white); color: #000; }
   .auth-view,
   .app-view,
@@ -1085,6 +1100,172 @@ tr:last-child td {
   .print-shell table { min-width: 0; border: 1px solid #000; }
   .print-shell th,
   .print-shell td { border: 1px solid #000; color: #000; }
+  .template-print {
+    min-height: auto;
+    background: #fff;
+    break-inside: avoid;
+    color: #000;
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+  }
+  .template-print.template-landscape {
+    page: template-landscape;
+    min-height: auto;
+  }
+  .template-print.template-portrait {
+    page: template-portrait;
+  }
+  .template-print.page-break {
+    break-before: page;
+  }
+  .template-doc-header {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: 0 0 5px;
+    font-size: 7px;
+    line-height: 1.05;
+  }
+  .template-doc-header td {
+    border: 1px solid #000;
+    color: #000;
+    padding: 2px 3px;
+    text-align: center;
+    vertical-align: middle;
+    word-break: normal;
+  }
+  .template-doc-header .header-logo {
+    width: 54px;
+    font-size: 17px;
+    font-weight: 800;
+  }
+  .template-doc-header .header-company {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+  .template-doc-header .header-company-sub,
+  .template-doc-header .header-ssop {
+    font-size: 8px;
+    font-weight: 700;
+  }
+  .template-print h1 {
+    margin: 0 0 5px;
+    text-align: center;
+    font-size: 11pt;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .template-meta,
+  .template-meta-lines {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 10px;
+    font-size: 11pt;
+    line-height: 1.1;
+  }
+  .template-meta-line {
+    display: grid;
+    gap: 14px;
+  }
+  .template-meta-1 {
+    grid-template-columns: 1fr;
+  }
+  .template-meta-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .template-meta-3 {
+    grid-template-columns: 0.72fr 1fr 1fr;
+  }
+  .template-meta div,
+  .template-field {
+    display: flex;
+    gap: 4px;
+    align-items: end;
+    border-bottom: 1px solid #000;
+    min-height: 13px;
+  }
+  .template-meta strong,
+  .template-field strong {
+    flex: 0 0 auto;
+    font-weight: 700;
+  }
+  .template-meta span,
+  .template-field span {
+    flex: 1 1 auto;
+    min-width: 30px;
+  }
+  .template-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 11pt;
+  }
+  .template-table th,
+  .template-table td {
+    border: 1px solid #000;
+    padding: 1px 2px;
+    color: #000;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.05;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+  .template-table th {
+    background: #f2f2f2;
+    font-size: 11pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .template-table td {
+    height: 13px;
+    min-height: 13px;
+  }
+  .template-instructions {
+    margin-top: 5px;
+    font-size: 11pt;
+    line-height: 1.15;
+  }
+  .template-instructions ol {
+    margin: 2px 0 0 14px;
+    padding: 0;
+  }
+  .template-doc-footer {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-top: 10px;
+    page-break-inside: avoid;
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+  }
+  .template-doc-footer td {
+    border: 1px solid #000;
+    color: #000;
+    padding: 3px 5px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.15;
+  }
+  .template-signatures {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 44px;
+    margin-top: 12px;
+    page-break-inside: avoid;
+    font-size: 11pt;
+  }
+  .template-signatures strong,
+  .template-signatures b,
+  .template-signatures small {
+    display: block;
+    color: #000;
+    line-height: 1.3;
+  }
+  .template-signatures small {
+    font-size: 7px;
+  }
   .signature-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

@@ -216,6 +216,164 @@ const navItems = [
   ["reports", "Reports"]
 ];
 
+const printTemplates = {
+  raw_material_receiving: {
+    title: "MONITORING RECORD HANDLING AND RECEIVING OF RAW MATERIALS",
+    docTitle: "MONITORING RECORD HANDLING AND RECEIVING OF RAW MATERIALS",
+    orientation: "portrait",
+    blankRows: 27,
+    metaLines: [
+      [["SUPPLIER'S NAME", "supplier_id"], ["APPROVED AGREED SCHEDULED DATE OF DELIVERY", "scheduled_delivery_date"]],
+      [["RECEIVING DATE", "receiving_date"], ["DELIVERY VEHICHLE ID", "delivery_vehicle_id"]],
+      [["QUALITY CONTROL INSPECTOR", "qc_inspector_id"]]
+    ],
+    child: true,
+    columns: [
+      ["TIME", "time_received"],
+      ["RAW MATERIAL", "raw_material"],
+      ["PACKAGING CONDITION (GOOD / DAMAGED)", "packaging_condition"],
+      ["MOISTURE CONTENT / EXPIRY DATE", (row) => [row.moisture_content, row.expiry_date].filter(Boolean).join(" / ")],
+      ["WITHIN SPECS? (YES / NO)", "within_specs"],
+      ["QUANTITY", "quantity"],
+      ["ACCEPTED / REJECTED", "status"],
+      ["INSPECTOR INITIALS", "inspector_employee_id"],
+      ["RECEIVED BY", "received_by_employee_id"]
+    ],
+    instructions: [
+      "Record all deliveries of raw materials upon receipt.",
+      "Inspect packaging condition and accept/reject accordingly.",
+      "Check and document moisture content of glutinous corn, and expiry date for packaged goods.",
+      "Inspect the raw material/s if within the firm's accepted specification.",
+      "Maintain completed records for at least one year for audit and compliance purposes."
+    ]
+  },
+  delivery_truck_inspections: {
+    title: "MONITORING RECORD CLEANLINESS AND MAINTENANCE OF DELIVERY TRUCK",
+    docTitle: "MONITORING RECORD CLEANLINESS AND MAINTENANCE OF DELIVERY TRUCK",
+    orientation: "landscape",
+    blankRows: 16,
+    metaLines: [
+      [["TRUCK PLATE NO.", "delivery_vehicle_id"], ["DRIVER NAME", "driver_employee_id"], ["CHECKED BY", "checked_by_employee_id"]]
+    ],
+    headerRows: [
+      [
+        { label: "DATE", rowspan: 2 },
+        { label: "TIME", rowspan: 2 },
+        { label: "TRUCK CONDITION", colspan: 2 },
+        { label: "Odor ( NORMAL / UNUSUAL )", rowspan: 2 },
+        { label: "Pest Activity (YES / NO)", rowspan: 2 },
+        { label: "Sanitized (YES / NO)", rowspan: 2 },
+        { label: "Maintenance Issues (Yes/No)", rowspan: 2 },
+        { label: "INSPECTOR INITIALS", rowspan: 2 },
+        { label: "CORRECTIVE ACTION (IF ANY)", rowspan: 2 }
+      ],
+      [
+        { label: "EXTERIOR (CLEAN / DIRTY)" },
+        { label: "INTERIOR (CLEAN / DIRTY)" }
+      ]
+    ],
+    columns: [
+      ["DATE", "inspection_date"],
+      ["TIME", "inspection_time"],
+      ["EXTERIOR (CLEAN / DIRTY)", "exterior_condition"],
+      ["INTERIOR (CLEAN / DIRTY)", "interior_condition"],
+      ["ODOR (NORMAL / UNUSUAL)", "odor_condition"],
+      ["PEST ACTIVITY (YES / NO)", "pest_activity"],
+      ["SANITIZED (YES / NO)", "sanitized"],
+      ["MAINTENANCE ISSUES (YES / NO)", "maintenance_issues"],
+      ["INSPECTOR INITIALS", "inspector_initials"],
+      ["CORRECTIVE ACTION (IF ANY)", "corrective_action"]
+    ]
+  },
+  pest_control_inspections: {
+    title: "MONITORING RECORD PEST CONTROL",
+    docTitle: "MONITORING RECORD PEST CONTROL",
+    orientation: "portrait",
+    blankRows: 30,
+    metaLines: [
+      [["INSPECTION DATE", "inspection_date"], ["INSPECTOR'S NAME", "inspector_employee_id"]]
+    ],
+    child: true,
+    columns: [
+      ["INSPECTION AREA", "inspection_area"],
+      ["PEST ACTIVITY OBSERVED (YES / NO)", "pest_activity_observed"],
+      ["TYPE OF PEST (IF ANY)", "pest_type"],
+      ["CORRECTIVE ACTION TAKEN", "corrective_action_taken"],
+      ["INSPECTOR INITIALS", "inspector_initials"],
+      ["VERIFIED BY (QA)", "verified_by_employee_id"]
+    ],
+    instructions: [
+      "Conduct daily inspections and record any pest activity.",
+      "If pests are observed, specify the type and describe corrective actions taken.",
+      "The inspector must sign off on each entry.",
+      "QA personnel must review and verify the log weekly.",
+      "Maintain completed forms for at least one year for audit and compliance purposes."
+    ]
+  },
+  oil_temperature_records: {
+    title: "MONITORING RECORD - OIL TEMPERATURE IN DEEP FRYING",
+    docTitle: "CCP MONITORING RECORD - DEEP FRYING",
+    orientation: "portrait",
+    blankRows: 30,
+    metaLines: [
+      [["Production Date", "production_date"], ["Batch/Lot No.", "batch_lot_no"], ["Operator's Name / ID No.", "operator_employee_id"]]
+    ],
+    child: true,
+    columns: [
+      ["TIME", "reading_time"],
+      ["OIL TEMP. (C)", "oil_temperature_c"],
+      ["OPERATOR INITIAL", "operator_initial"],
+      ["CORRECTIVE ACTION (IF ANY)", "corrective_action"],
+      ["VERIFIED BY QA", "verified_by_employee_id"]
+    ],
+    instructions: [
+      "Record the oil temperature before deep frying.",
+      "Enter the time, temperature reading, and operator's initials.",
+      "If a deviation from the acceptable range (180 C to 190 C) occurs, describe the corrective action taken.",
+      "QA personnel must verify and sign off on the monitoring record.",
+      "Maintain completed forms for at least one year for audit and traceability purposes."
+    ]
+  },
+  cleaning_sanitation_logs: {
+    title: "CLEANING AND SANITATION LOG SHEET",
+    docTitle: "MONITORING RECORD CLEANING AND SANITATION",
+    orientation: "portrait",
+    blankRows: 37,
+    columns: [
+      ["DATE", "log_date"],
+      ["TIME", "log_time"],
+      ["AREA OF CONCERN", "area_of_concern"],
+      ["STANDARD (YES / NO)", "standard_met"],
+      ["ACTION TAKEN", "action_taken"],
+      ["SANITIZER USED", "sanitizer_used"],
+      ["PERFORMED BY", "performed_by_employee_id"],
+      ["CHECKED BY", "checked_by_employee_id"]
+    ]
+  },
+  stock_management_records: {
+    title: "MONITORING RECORD STOCK MANAGEMENT & CONTROL",
+    docTitle: "MONITORING RECORD STOCK MANAGEMENT & CONTROL",
+    orientation: "landscape",
+    blankRows: 17,
+    metaLines: [
+      [["WAREHOUSE LOCATION", "warehouse_location"], ["CHECKED BY", "checked_by_employee_id"]]
+    ],
+    child: true,
+    columns: [
+      ["DATE", "stock_date"],
+      ["TIME", "stock_time"],
+      ["PRODUCT NAME", "product_name"],
+      ["BATCH NO. / LOT NO.", "batch_lot_no"],
+      ["QUANTITY IN STOCK", "quantity_in_stock"],
+      ["EXPIRY DATE", "expiry_date"],
+      ["STORAGE CONDITION (GOOD / NEEDS ATTENTION)", "storage_condition"],
+      ["FIFO / FEFO FOLLOWED (YES / NO)", "fifo_fefo_followed"],
+      ["INSPECTOR INITIALS", "inspector_initials"],
+      ["CORRECTIVE ACTION (IF ANY)", "corrective_action"]
+    ]
+  }
+};
+
 const $ = (selector) => document.querySelector(selector);
 
 document.addEventListener("DOMContentLoaded", init);
@@ -852,20 +1010,154 @@ function exportCSV(filename, rows) {
 function printRecord(title, rows, config) {
   const shell = document.createElement("div");
   shell.className = "print-shell";
-  shell.innerHTML = `${officialPrintHeader(title)}${printTable(rows, config)}${signatureBlock()}`;
+  shell.innerHTML = printTemplates[config.table]
+    ? printTemplateRecords(rows, config)
+    : `${officialPrintHeader(title)}${printTable(rows, config)}${signatureBlock()}`;
   document.body.appendChild(shell);
   window.print();
   shell.remove();
 }
 
+function printTemplateRecords(rows, config) {
+  const template = printTemplates[config.table];
+  const records = rows.length ? rows : [{}];
+  const printedOn = formatPrintDate(new Date());
+  const pages = records.flatMap((record) => {
+    const sourceRows = template.child ? (record._children || []) : [record];
+    const displayRows = sourceRows.length ? sourceRows : [{}];
+    const rowChunks = chunkRows(displayRows, template.blankRows ?? 10);
+    return rowChunks.map((pageRows, pageIndex) => ({
+      record,
+      pageRows,
+      pageNumber: pageIndex + 1,
+      totalPages: rowChunks.length
+    }));
+  });
+  return pages.map((page, index) => `
+    <section class="template-print template-${template.orientation || "portrait"} ${index > 0 ? "page-break" : ""}">
+      ${templateDocumentHeader(template, printedOn, page.pageNumber, page.totalPages)}
+      <h1>${escapeHtml(template.title)}</h1>
+      ${printTemplateMeta(page.record, template)}
+      ${printTemplateTable(page.pageRows, template)}
+      ${template.instructions?.length ? `<div class="template-instructions">
+        <strong>Instructions:</strong>
+        <ol>${template.instructions.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol>
+      </div>` : ""}
+      ${templateDocumentFooter(printedOn)}
+    </section>
+  `).join("");
+}
+
+function templateDocumentHeader(template, dateText, pageNumber = 1, totalPages = 1) {
+  return `
+    <table class="template-doc-header">
+      <tbody>
+        <tr>
+          <td class="header-logo" rowspan="4">IFP</td>
+          <td class="header-company" colspan="5">ILOCOS FOOD PRODUCTS</td>
+        </tr>
+        <tr>
+          <td class="header-company-sub" colspan="5">TALEB, BANTAY, ILOCOS SUR</td>
+        </tr>
+        <tr>
+          <td class="header-ssop" colspan="5">SANITATION STANDARD OPERATING PROCEDURES (SSOP)</td>
+        </tr>
+        <tr>
+          <td><strong>Document Code:</strong><br>0 / ${escapeHtml(formatDocumentCodeDate(dateText))}</td>
+          <td><strong>Effectivity Date</strong><br>${escapeHtml(dateText)}</td>
+          <td><strong>Revision No.</strong><br>0</td>
+          <td><strong>Document Title:</strong><br>${escapeHtml(template.docTitle || template.title)}</td>
+          <td><strong>Page</strong><br>${pageNumber} of ${totalPages}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
+function printTemplateMeta(record, template) {
+  if (!template.metaLines?.length) return "";
+  return `<div class="template-meta-lines">${template.metaLines.map((line) => `
+    <div class="template-meta-line template-meta-${line.length}">
+      ${line.map(([label, field]) => `
+        <div class="template-field"><strong>${escapeHtml(label)}:</strong><span>${printValue(record, field)}</span></div>
+      `).join("")}
+    </div>
+  `).join("")}</div>`;
+}
+
+function printTemplateTable(displayRows, template) {
+  const headerRows = template.headerRows || [template.columns.map(([label]) => ({ label }))];
+  const blankCount = Math.max(0, (template.blankRows ?? 10) - displayRows.length);
+  return `
+    <table class="template-table">
+      <thead>
+        ${headerRows.map((row) => `<tr>${row.map((cell) => `
+          <th${cell.colspan ? ` colspan="${cell.colspan}"` : ""}${cell.rowspan ? ` rowspan="${cell.rowspan}"` : ""}>${escapeHtml(cell.label)}</th>
+        `).join("")}</tr>`).join("")}
+      </thead>
+      <tbody>
+        ${displayRows.map((row) => `<tr>${template.columns.map(([, field]) => `<td>${printValue(row, field)}</td>`).join("")}</tr>`).join("")}
+        ${Array.from({ length: blankCount }, () => `<tr>${template.columns.map(() => "<td>&nbsp;</td>").join("")}</tr>`).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function chunkRows(rows, size) {
+  const chunks = [];
+  for (let index = 0; index < rows.length; index += size) {
+    chunks.push(rows.slice(index, index + size));
+  }
+  return chunks.length ? chunks : [[{}]];
+}
+
+function printValue(row, field) {
+  const value = typeof field === "function" ? field(row) : displayValue(field, row?.[field]);
+  return escapeHtml(value || "");
+}
+
+function templateDocumentFooter(dateText) {
+  return `
+    <table class="template-doc-footer">
+      <tbody>
+        <tr>
+          <td>Prepared &amp; Reviewed by:</td>
+          <td>Approved by:</td>
+        </tr>
+        <tr>
+          <td><strong>CATHERIN A. ALVIAR</strong></td>
+          <td><strong>CLEMENCIA A. PADRE</strong></td>
+        </tr>
+        <tr>
+          <td>Food Safety Compliance Officer</td>
+          <td>Owner</td>
+        </tr>
+        <tr>
+          <td>DATE: ${escapeHtml(dateText)}</td>
+          <td>DATE: ${escapeHtml(dateText)}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
+function formatPrintDate(date) {
+  return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+}
+
+function formatDocumentCodeDate(dateText) {
+  return dateText.toUpperCase().replace(",", "");
+}
+
 function officialPrintHeader(title) {
+  const printedOn = formatPrintDate(new Date());
   return `
     <div class="print-header">
       <strong>Ilocos Food Products</strong><br>
       Taleb, Bantay, Ilocos Sur
       <h1>${escapeHtml(title)}</h1>
       <div>Sanitation Standard Operating Procedures (SSOP)</div>
-      <div>Date: April 1, 2025</div>
+      <div>Date: ${escapeHtml(printedOn)}</div>
     </div>
   `;
 }
